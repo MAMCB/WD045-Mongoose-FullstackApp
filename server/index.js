@@ -6,11 +6,13 @@ require("dotenv/config");
 const connectDB = require('./config/db');
 const userRouter = require('./routes/users');
 const eventRouter = require('./routes/events');
+const homeRouter = require('./routes/home');
 
 app.use(express.json());
 app.use(cors());
-app.use("api/users",userRouter);
-app.use("api/events",eventRouter);
+app.use("/api/users", userRouter);
+app.use("/api/events", eventRouter);
+app.use("/", homeRouter);
 
 connectDB().then(() => {
     app.listen(PORT, () => {
