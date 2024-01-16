@@ -13,7 +13,7 @@ const getAllEvents = async (req, res) => {
     try{
         const allEvents = await Event.find()
           .populate("organizer")
-          .populate("atendees");
+          .populate("attendees");
         res.status(200).json(allEvents);
     }catch(error){
         res.status(500).json({message:error.message});
@@ -23,7 +23,7 @@ const getAllEvents = async (req, res) => {
 const getEventById = async (req, res) => {
     const {id}=req.params;
     try{
-        const targetEvent = await Event.find({_id:id}).populate("organizer").populate("atendees");
+        const targetEvent = await Event.find({_id:id}).populate("organizer").populate("attendees");
         if(targetEvent.length===0){
             res.status(404).json({message:"Event not found"});
         }
@@ -68,7 +68,7 @@ const deleteEventById = async (req, res) => {
 const addUserToEvent = async (req, res) => {
     const {id}=req.params;
     try {
-        const updatedEvent = await Event.findByIdAndUpdate(id,{$push:{atendees:req.body.userId}},{new:true});
+        const updatedEvent = await Event.findByIdAndUpdate(id,{$push:{attendees:req.body.userId}},{new:true});
         if(!updatedEvent){
             res.status(404).json({message:"Event not found"});
         }
