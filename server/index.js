@@ -9,6 +9,7 @@ const eventRouter = require('./routes/events');
 const homeRouter = require('./routes/home');
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use("/api/users", userRouter);
 app.use("/api/events", eventRouter);

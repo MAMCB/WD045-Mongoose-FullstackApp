@@ -10,7 +10,12 @@ const NewEvent = () => {
   const formData = new FormData();
   
 
-    useEffect(()=>{submit &&
+    useEffect(()=>{submit && formData.append("name", newEvent.name);
+    formData.append("description", newEvent.description);
+    formData.append("location", newEvent.location);
+    formData.append("organizer", newEvent.organizer);
+    formData.append("image", newEvent.image);
+      console.log("FormData before POST:", Array.from(formData.entries()));
       axiosInstance
         .post("/api/events",formData)
         .then((response) => navigate("/events"))
@@ -19,31 +24,39 @@ const NewEvent = () => {
 
     const handleName = (e)=>{
       setNewEvent({...newEvent,name:e.target.value});
-      formData.append("name",e.target.value);
+      // formData.append("name",e.target.value);
+      // console.log(Array.from(formData.entries()));
 
     }
 
     const handleDescription = (e)=>{
       setNewEvent({ ...newEvent,description: e.target.value });
-      formData.append("description", e.target.value);
+      // formData.append("description", e.target.value);
+      // console.log(Array.from(formData.entries()));
     }
     const handleLocation = (e)=>{
       setNewEvent({ ...newEvent, location: e.target.value });
-      formData.append("location", e.target.value);
+      // formData.append("location", e.target.value);
+      // console.log(Array.from(formData.entries()));
     }
 
     const handleOrganizer = (e)=>{
       setNewEvent({ ...newEvent, organizer: e.target.value });
-      formData.append("organizer", e.target.value);
+      // formData.append("organizer", e.target.value);
+      // console.log(Array.from(formData.entries()));
     }
 
     const handleFile = (e)=>{
-     setNewEvent({...newEvent,image:e.target.value});
-     formData.append("image", e.target.value);
+      
+     setNewEvent({ ...newEvent, image: e.target.files[0] });
+    //  formData.append("image", e.target.files[0]);
+    //  console.log(Array.from(formData.entries()));
     }
 
     const handleSubmit = (e)=>{
       e.preventDefault();
+      
+     
       
       setSubmit(true);
     }
@@ -52,12 +65,27 @@ const NewEvent = () => {
   return (
     <div>
       <h1>Create new event</h1>
-      <form action="">
-        <input type="text" onChange={handleName} placeholder="Event name" />
-        <input type="text" onChange={handleDescription} placeholder="Description" />
-        <input type="text" onChange={handleLocation} placeholder="Location" />
-        <input type="text" onChange={handleOrganizer} placeholder="Organizer" />
-        <input type='file' onChange={handleFile} placeholder='upload event image'/>
+      <form action="" encType="multipart/form-data">
+        <input
+          type="text"
+          name="name"
+          onChange={handleName}
+          placeholder="Event name"
+        />
+        <input
+          type="text"
+          name="description"
+          onChange={handleDescription}
+          placeholder="Description"
+        />
+        <input type="text" name='location' onChange={handleLocation} placeholder="Location" />
+        <input type="text" name='organizer' onChange={handleOrganizer} placeholder="Organizer" />
+        <input
+          type="file"
+          onChange={handleFile}
+          placeholder="upload event image"
+          name="image"
+        />
         <button onClick={handleSubmit}>Submit</button>
       </form>
     </div>

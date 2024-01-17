@@ -15,6 +15,7 @@ const EventsDetails = () => {
         <h1>Event Details</h1>
         {event && <div>
             <h2>{event.name}</h2>
+            {event.image && <img src={event.image} alt={event.name} />}
             <p>Organized by: {event.organizer.name}</p>
             <p>Description: {event.description}</p>
             <p>Attendees: {event.attendees.length}</p>

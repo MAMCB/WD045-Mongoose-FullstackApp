@@ -1,8 +1,12 @@
 const Event = require("../models/event");
 
+
 const createEvent = async (req, res) => {
     try{
-        const newEvent = await Event.create(req.body);
+        if (!req.file) {
+          return res.status(400).json({ message: "File not provided." });
+        }
+        const newEvent = await Event.create({...req.body,image:req.file.secure_url});
         res.status(201).json(newEvent);
     }catch(error){
         res.status(500).json({message:error.message});
